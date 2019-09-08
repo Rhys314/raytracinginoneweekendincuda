@@ -1,5 +1,6 @@
 #include <iostream>
 #include <time.h>
+#include <fstream>
 
 // limited version of checkCudaErrors from helper_cuda.h in CUDA examples
 #define checkCudaErrors(val) check_cuda( (val), #val, __FILE__, __LINE__ )
@@ -29,6 +30,7 @@ int main() {
     int ny = 600;
     int tx = 8;
     int ty = 8;
+	std::ofstream file("hello_world.ppm");
 
     std::cerr << "Rendering a " << nx << "x" << ny << " image ";
     std::cerr << "in " << tx << "x" << ty << " blocks.\n";
@@ -53,7 +55,7 @@ int main() {
     std::cerr << "took " << timer_seconds << " seconds.\n";
 
     // Output FB as Image
-    std::cout << "P3\n" << nx << " " << ny << "\n255\n";
+	file << "P3\n" << nx << " " << ny << "\n255\n";
     for (int j = ny-1; j >= 0; j--) {
         for (int i = 0; i < nx; i++) {
             size_t pixel_index = j*3*nx + i*3;
@@ -63,9 +65,10 @@ int main() {
             int ir = int(255.99*r);
             int ig = int(255.99*g);
             int ib = int(255.99*b);
-            std::cout << ir << " " << ig << " " << ib << "\n";
+			file << ir << " " << ig << " " << ib << "\n";
         }
     }
+	file.close();
 
     checkCudaErrors(cudaFree(fb));
 }
