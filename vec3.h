@@ -1,6 +1,8 @@
 #ifndef VEC3H
 #define VEC3H
 
+#define _USE_MATH_DEFINES
+
 #include <math.h>
 #include <stdlib.h>
 #include <iostream>
